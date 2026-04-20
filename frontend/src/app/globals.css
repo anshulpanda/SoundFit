@@ -1,0 +1,151 @@
+/* ── Design tokens from DESIGN.md ── */
+:root {
+  /* Backgrounds */
+  --bg-base: #121212;
+  --bg-surface: #181818;
+  --bg-interactive: #1f1f1f;
+  --bg-card: #252525;
+  --bg-card-alt: #272727;
+
+  /* Accent */
+  --accent: #1ed760;
+  --accent-border: #1db954;
+
+  /* Text */
+  --text-base: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-near-white: #cbcbcb;
+  --text-emphasis: #fdfdfd;
+  --text-on-accent: #000000;
+
+  /* Semantic */
+  --text-negative: #f3727f;
+  --text-warning: #ffa42b;
+  --text-announcement: #539df5;
+
+  /* Borders */
+  --border: #4d4d4d;
+  --border-light: #7c7c7c;
+
+  /* Shadows */
+  --shadow-heavy: rgba(0, 0, 0, 0.5) 0px 8px 24px;
+  --shadow-medium: rgba(0, 0, 0, 0.3) 0px 8px 8px;
+  --shadow-inset: rgb(18, 18, 18) 0px 1px 0px,
+    rgb(124, 124, 124) 0px 0px 0px 1px inset;
+
+  /* Border radius */
+  --radius-minimal: 2px;
+  --radius-subtle: 4px;
+  --radius-standard: 6px;
+  --radius-comfortable: 8px;
+  --radius-pill: 500px;
+  --radius-full-pill: 9999px;
+  --radius-circle: 50%;
+
+  /* Typography */
+  --font-ui: "SpotifyMixUI", "Helvetica Neue", helvetica, arial, sans-serif;
+  --font-title: "SpotifyMixUITitle", "Helvetica Neue", helvetica, arial,
+    sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background-color: var(--bg-base);
+  color: var(--text-base);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── Utility classes ── */
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--accent);
+  color: var(--text-on-accent);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 48px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  transition: transform 80ms ease, background-color 100ms ease;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background-color: #1fdf64;
+  transform: scale(1.02);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text-base);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: var(--radius-full-pill);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: border-color 100ms ease, color 100ms ease;
+}
+
+.btn-outlined:hover {
+  border-color: var(--text-base);
+  color: var(--text-base);
+}
+
+/* Cards */
+.card {
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-comfortable);
+  padding: 16px;
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.card:hover {
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Loading / status text */
+.text-muted {
+  color: var(--text-secondary);
+  font-size: 14px;
+}

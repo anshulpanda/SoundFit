@@ -1,0 +1,16 @@
+{
+    "download_path": "downloads",
+    "create_folder": true,
+    "album_folder_name": "{name} - {artists}",
+    "play_folder_name": "{name} - {owner}",
+    "file_name": "{track_number}. {name}",
+    "synced_lyrics": true,
+    "enhanced_lrc": true,
+    "force_download": false,
+    "plugins": {
+        "spotify": {
+            "sp_dc": "",
+            "synced_lyrics": true
+        }
+    }
+}
