@@ -9,6 +9,8 @@ export interface Track {
   id: string;
   name: string;
   artist_name: string;
+  featured_artists: string[];
+  artist_image_url: string | null;
 }
 
 export interface TopData {
@@ -32,11 +34,14 @@ export interface RankedQuery {
 export interface TrackRecommendation {
   track_name: string;
   artist_name: string;
+  featured_artists: string[];
+  artist_image_url: string | null;
   style_profile: string;
   queries: RankedQuery[];
 }
 
 export interface RecommendationsResponse {
+  taste_summary: string;
   recommendations: TrackRecommendation[];
 }
 

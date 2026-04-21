@@ -26,6 +26,8 @@ class Track(BaseModel):
     id: str
     name: str
     artist_name: str
+    featured_artists: list[str] = []
+    artist_image_url: Optional[str] = None
 
 
 class TopDataResponse(BaseModel):
@@ -36,6 +38,8 @@ class TopDataResponse(BaseModel):
 class TrackWithLyrics(BaseModel):
     name: str
     artist_name: str
+    featured_artists: list[str] = []
+    artist_image_url: Optional[str] = None
     lyrics: Optional[str] = None
 
 
@@ -55,9 +59,12 @@ class RankedQuery(BaseModel):
 class TrackRecommendation(BaseModel):
     track_name: str
     artist_name: str
+    featured_artists: list[str] = []
+    artist_image_url: Optional[str] = None
     style_profile: str
     queries: list[RankedQuery]
 
 
 class RecommendationsResponse(BaseModel):
+    taste_summary: str
     recommendations: list[TrackRecommendation]

@@ -1,7 +1,5 @@
-import asyncio
 import httpx
 from models import Artist, Track
-from services.lyrics_client import get_lyrics
 
 SPOTIFY_API_BASE = "https://api.spotify.com/v1"
 
@@ -37,19 +35,22 @@ async def get_top_tracks(access_token: str, limit: int = 5) -> list[Track]:
     response.raise_for_status()
     items = response.json()["items"]
 
-    tracks = [
-        Track(id=t["id"], name=t["name"], artist_name=t["artists"][0]["name"])
-        for t in items
-    ]
+    tracks = []
+    for t in items:
+        all_artists = t.get("artists", [])
+        primary = all_artists[0]["name"] if all_artists else "Unknown"
+        featured = [a["name"] for a in all_artists[1:]]
 
-    # Fetch lyrics for all tracks concurrently
-    lyrics_results = await asyncio.gather(
-        *[get_lyrics(t.artist_name, t.name) for t in tracks]
-    )
+        # Use the album art as a proxy artist image
+        album_images = t.get("album", {}).get("images", [])
+        artist_image_url = album_images[0]["url"] if album_images else None
 
-    print("[SoundFit] Top 5 tracks with lyrics (last 4 weeks):")
-    for i, (track, lyrics) in enumerate(zip(tracks, lyrics_results), 1):
-        print(f"  {i}. {track.name} — {track.artist_name}")
-        print(f"     Lyrics: {lyrics[:120] if lyrics else 'Not found'}")
+        tracks.append(Track(
+            id=t["id"],
+            name=t["name"],
+            artist_name=primary,
+            featured_artists=featured,
+            artist_image_url=artist_image_url,
+        ))
 
     return tracks

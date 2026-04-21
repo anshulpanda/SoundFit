@@ -1,4 +1,4 @@
-/* ── Status screens ── */
+/* ── Status / full-page loading ── */
 .statusPage {
   min-height: 100vh;
   display: flex;
@@ -12,25 +12,18 @@
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: 3px solid var(--bg-interactive);
   border-top-color: var(--accent);
   border-radius: var(--radius-circle);
   animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .statusText {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-base);
-}
-
-.statusSubtext {
   font-size: 14px;
   color: var(--text-secondary);
 }
@@ -38,14 +31,12 @@
 .errorText {
   font-size: 14px;
   color: var(--text-negative);
-  max-width: 320px;
+  max-width: 360px;
+  text-align: center;
 }
 
-/* ── Page layout ── */
-.page {
-  min-height: 100vh;
-  background-color: var(--bg-base);
-}
+/* ── Page ── */
+.page { min-height: 100vh; background-color: var(--bg-base); }
 
 .header {
   display: flex;
@@ -75,13 +66,185 @@
   padding: 40px 32px 80px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 48px;
 }
 
-.section {
+/* ── Profile section ── */
+.profileSection {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+}
+
+.profileBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profileLabel {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--accent);
+}
+
+/* Artist chips */
+.artistRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.artistChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-full-pill);
+  padding: 6px 14px 6px 6px;
+}
+
+.artistAvatar {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-circle);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.artistAvatarImg { object-fit: cover; }
+
+.artistAvatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-interactive);
+}
+
+.artistChipName {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-base);
+  white-space: nowrap;
+}
+
+/* Song list */
+.songList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.songRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-standard);
+  transition: background 100ms ease;
+}
+
+.songRow:hover { background: var(--bg-surface); }
+
+.songNumber {
+  font-size: 14px;
+  color: var(--text-secondary);
+  width: 16px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.songThumb {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-subtle);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.songThumbImg { object-fit: cover; }
+
+.songThumbPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-interactive);
+}
+
+.songInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.songName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.songArtist {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Taste summary */
+.tasteSummaryBox {
+  background: var(--bg-surface);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-comfortable);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tasteSummaryText {
+  font-size: 15px;
+  color: var(--text-near-white);
+  line-height: 1.7;
+}
+
+/* Shimmer loading lines */
+.summaryLoading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shimmerLine {
+  height: 14px;
+  border-radius: var(--radius-subtle);
+  background: linear-gradient(
+    90deg,
+    var(--bg-interactive) 25%,
+    var(--bg-card) 50%,
+    var(--bg-interactive) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Recommendations section ── */
+.recsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .sectionTitle {
@@ -91,73 +254,67 @@
   color: var(--text-base);
 }
 
-/* ── Track tabs ── */
-.trackTabs {
+.recsLoadingState {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
 }
 
-.trackTab {
+/* ── Per-track block ── */
+.trackBlock {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: 10px 16px;
-  background: var(--bg-surface);
-  border: 1px solid transparent;
-  border-radius: var(--radius-comfortable);
-  cursor: pointer;
-  transition: background 100ms ease, border-color 100ms ease;
-  text-align: left;
+  gap: 20px;
+  padding-top: 24px;
+  border-top: 1px solid var(--bg-interactive);
 }
 
-.trackTab:hover {
-  background: var(--bg-card);
+.trackBlock:first-of-type { border-top: none; padding-top: 0; }
+
+.trackHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-.trackTabActive {
-  border-color: var(--accent);
-  background: var(--bg-card);
+.trackHeaderThumb {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-standard);
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.trackTabName {
-  font-size: 14px;
+.trackHeaderName {
+  font-size: 18px;
   font-weight: 700;
   color: var(--text-base);
 }
 
-.trackTabArtist {
-  font-size: 12px;
+.trackHeaderArtist {
+  font-size: 13px;
   color: var(--text-secondary);
+  margin-top: 2px;
 }
 
-/* ── Style profile ── */
 .styleProfile {
-  background: var(--bg-surface);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius-comfortable);
-  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-style: italic;
+  padding-left: 16px;
+  border-left: 2px solid var(--bg-interactive);
+}
+
+/* ── Query block ── */
+.queryBlock {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
 }
 
-.styleProfileLabel {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.4px;
-}
-
-.styleProfileText {
-  font-size: 15px;
-  color: var(--text-near-white);
-  line-height: 1.6;
-}
-
-/* ── Query section ── */
 .queryHeader {
   display: flex;
   align-items: center;
@@ -168,41 +325,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: var(--radius-circle);
   background: var(--accent);
   color: var(--text-on-accent);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   flex-shrink: 0;
 }
 
 .queryText {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text-base);
-}
-
-.noProducts {
-  font-size: 14px;
-  color: var(--text-secondary);
 }
 
 /* ── Product grid ── */
 .productGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
-@media (max-width: 896px) {
-  .productGrid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 576px) {
-  .productGrid { grid-template-columns: repeat(2, 1fr); }
-}
+@media (max-width: 896px) { .productGrid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 576px) { .productGrid { grid-template-columns: repeat(2, 1fr); } }
 
 .productCard {
   display: flex;
@@ -228,9 +375,7 @@
   overflow: hidden;
 }
 
-.productImage {
-  object-fit: cover;
-}
+.productImage { object-fit: cover; }
 
 .productImagePlaceholder {
   width: 100%;
@@ -240,28 +385,60 @@
 
 .topPickBadge {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 6px;
+  left: 6px;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
   color: var(--text-on-accent);
   background: var(--accent);
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full-pill);
+  z-index: 1;
+}
+
+/* Song attribution badge bottom of image */
+.songBadge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 7px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.songBadgeThumb {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-circle);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.songBadgeText {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .productInfo {
-  padding: 10px 12px 12px;
+  padding: 10px 10px 12px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  flex: 1;
 }
 
 .productTitle {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--text-base);
   line-height: 1.3;
@@ -279,13 +456,13 @@
 }
 
 .productPrice {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--accent);
 }
 
 .productSource {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
