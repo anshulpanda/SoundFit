@@ -16,31 +16,28 @@ export interface TopData {
   top_tracks: Track[];
 }
 
-export interface OutfitItem {
-  name: string;
-  description: string;
-  search_links: {
-    asos: string;
-    depop: string;
-    amazon: string;
-  };
+export interface Product {
+  title: string;
+  link: string;
+  image_url: string | null;
+  price: string | null;
+  source: string | null;
 }
 
-export interface Outfit {
-  name: string;
-  vibe: string;
-  items: OutfitItem[];
+export interface RankedQuery {
+  query: string;
+  products: Product[];
 }
 
-export interface OutfitRecommendation {
+export interface TrackRecommendation {
   track_name: string;
   artist_name: string;
   style_profile: string;
-  outfits: Outfit[];
+  queries: RankedQuery[];
 }
 
 export interface RecommendationsResponse {
-  recommendations: OutfitRecommendation[];
+  recommendations: TrackRecommendation[];
 }
 
 export interface SpotifyTokenResponse {

@@ -39,24 +39,25 @@ class TrackWithLyrics(BaseModel):
     lyrics: Optional[str] = None
 
 
-class OutfitItem(BaseModel):
-    name: str
-    description: str
-    search_links: dict[str, str]
+class Product(BaseModel):
+    title: str
+    link: str
+    image_url: Optional[str] = None
+    price: Optional[str] = None
+    source: Optional[str] = None
 
 
-class Outfit(BaseModel):
-    name: str
-    vibe: str
-    items: list[OutfitItem]
+class RankedQuery(BaseModel):
+    query: str
+    products: list[Product]
 
 
-class OutfitRecommendation(BaseModel):
+class TrackRecommendation(BaseModel):
     track_name: str
     artist_name: str
     style_profile: str
-    outfits: list[Outfit]
+    queries: list[RankedQuery]
 
 
 class RecommendationsResponse(BaseModel):
-    recommendations: list[OutfitRecommendation]
+    recommendations: list[TrackRecommendation]

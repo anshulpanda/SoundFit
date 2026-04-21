@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchRecommendations } from "@/services/api";
 import { RecommendationsResponse } from "@/types";
@@ -37,7 +38,7 @@ export default function DashboardPage() {
         <div className={styles.spinner} aria-label="Loading" />
         <p className={styles.statusText}>Analyzing your music taste…</p>
         <p className={styles.statusSubtext}>
-          Fetching lyrics and generating outfit recommendations
+          Fetching lyrics and generating recommendations
         </p>
       </main>
     );
@@ -96,35 +97,60 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Outfit recommendations */}
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Outfit Recommendations</h2>
-          <div className={styles.outfitGrid}>
-            {rec.outfits.map((outfit, oi) => (
-              <div key={oi} className={styles.outfitCard}>
-                <div className={styles.outfitHeader}>
-                  <h3 className={styles.outfitName}>{outfit.name}</h3>
-                  <span className={styles.outfitVibe}>{outfit.vibe}</span>
-                </div>
-                <ul className={styles.itemList}>
-                  {outfit.items.map((item, ii) => (
-                    <li key={ii} className={styles.item}>
-                      <div className={styles.itemInfo}>
-                        <span className={styles.itemName}>{item.name}</span>
-                        <span className={styles.itemDesc}>{item.description}</span>
+        {/* Queries + products */}
+        {rec.queries.map((rq, qi) => (
+          <section key={qi} className={styles.section}>
+            <div className={styles.queryHeader}>
+              <span className={styles.queryIndex}>{qi + 1}</span>
+              <h3 className={styles.queryText}>{rq.query}</h3>
+            </div>
+
+            {rq.products.length === 0 ? (
+              <p className={styles.noProducts}>No products found for this query.</p>
+            ) : (
+              <div className={styles.productGrid}>
+                {rq.products.map((product, pi) => (
+                  <a
+                    key={pi}
+                    href={product.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.productCard}
+                  >
+                    <div className={styles.productImageWrap}>
+                      {product.image_url ? (
+                        <Image
+                          src={product.image_url}
+                          alt={product.title}
+                          fill
+                          sizes="160px"
+                          className={styles.productImage}
+                          unoptimized
+                        />
+                      ) : (
+                        <div className={styles.productImagePlaceholder} />
+                      )}
+                      {pi === 0 && (
+                        <span className={styles.topPickBadge}>Top Pick</span>
+                      )}
+                    </div>
+                    <div className={styles.productInfo}>
+                      <p className={styles.productTitle}>{product.title}</p>
+                      <div className={styles.productMeta}>
+                        {product.price && (
+                          <span className={styles.productPrice}>{product.price}</span>
+                        )}
+                        {product.source && (
+                          <span className={styles.productSource}>{product.source}</span>
+                        )}
                       </div>
-                      <div className={styles.itemLinks}>
-                        <a href={item.search_links.asos} target="_blank" rel="noopener noreferrer" className={styles.shopLink}>ASOS</a>
-                        <a href={item.search_links.depop} target="_blank" rel="noopener noreferrer" className={styles.shopLink}>Depop</a>
-                        <a href={item.search_links.amazon} target="_blank" rel="noopener noreferrer" className={styles.shopLink}>Amazon</a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                    </div>
+                  </a>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
+            )}
+          </section>
+        ))}
       </div>
     </main>
   );

@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Header
 from models import TopDataResponse, TrackWithLyrics, RecommendationsResponse
 from services.spotify_client import get_top_artists, get_top_tracks
 from services.lyrics_client import get_lyrics
-from services.llm_service import get_outfit_recommendations
+from services.llm_service import get_track_recommendation
 
 router = APIRouter()
 
@@ -59,7 +59,7 @@ async def get_recommendations(authorization: str = Header(...)):
     # 3. Generate outfit recommendations for each track concurrently
     try:
         recommendations = await asyncio.gather(
-            *[get_outfit_recommendations(t) for t in tracks_with_lyrics]
+            *[get_track_recommendation(t) for t in tracks_with_lyrics]
         )
     except Exception as e:
         traceback.print_exc()
